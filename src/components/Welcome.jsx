@@ -20,7 +20,7 @@ const renderText = (text, className, baseWeight = 400) => {
 };
 
 const setupTextHover = (container, type) => {
-  if (!container) return;
+  if (!container) return () => {};
 
   const letters = container.querySelectorAll("span");
   const { min, max, default: base } = FONT_WEIGHTS[type];
@@ -50,11 +50,11 @@ const setupTextHover = (container, type) => {
     letters.forEach(animateLetters(letters, base, 0.3));
 
   container.addEventListener("mousemove", handleMouseMove);
-  container.addEventListener("mousemove", handleMouseLeave);
+  container.addEventListener("mouseleave", handleMouseLeave);
 
   return () => {
-    container.addEventListener("mousemove", handleMouseMove);
-    container.addEventListener("mousemove", handleMouseLeave);
+    container.removeEventListener("mousemove", handleMouseMove);
+    container.removeEventListener("mouseleave", handleMouseLeave);
   };
 };
 
@@ -85,7 +85,7 @@ const Welcome = () => {
         {renderText("portfolio", "text-9xl italic font-georama")}
       </h1>
       <div className="small-screen">
-        <p>This Portfolio is designed for desktop/tabled screens only.</p>
+        <p>This Portfolio is designed for desktop/tablet screens only.</p>
       </div>
     </section>
   );
